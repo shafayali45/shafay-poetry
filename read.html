@@ -55,5 +55,9 @@ titleEl.textContent=item.title; metaEl.textContent=item.type.toUpperCase(); poem
 if(favs.has(item.id)) favBtn.classList.add('active');
 favBtn.onclick=()=>{favs.has(item.id)?favs.delete(item.id):favs.add(item.id);favBtn.classList.toggle('active');localStorage.setItem('favs',JSON.stringify([...favs]));};
 </script>
+
+
+<script src="data.js"></script>
+
 </body>
 </html>
