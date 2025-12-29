@@ -285,7 +285,44 @@ render();
 </script>
 
 
-<script src="data.js"></script>
+<script>
+fetch("https://sheetdb.io/api/v1/dl6yhkvu4ynyy")
+.then(res => res.json())
+.then(DATA => {
+
+  const listEl = document.getElementById("list");
+  listEl.innerHTML = "";
+
+  const favs = new Set(JSON.parse(localStorage.getItem("favs") || "[]"));
+
+  DATA.forEach(d => {
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML = `
+      <div>
+        <h3>${d.title}</h3>
+        <div class="meta">${d.type}</div>
+      </div>
+      <button class="fav ${favs.has(d.id) ? "active" : ""}">❤</button>
+    `;
+
+    el.querySelector("h3").onclick = () => {
+      window.location.href = "read.html?id=" + d.id;
+    };
+
+    el.querySelector(".fav").onclick = e => {
+      e.stopPropagation();
+      favs.has(d.id) ? favs.delete(d.id) : favs.add(d.id);
+      localStorage.setItem("favs", JSON.stringify([...favs]));
+      e.target.classList.toggle("active");
+    };
+
+    listEl.appendChild(el);
+  });
+
+});
+</script>
+
 
 
 </body>
